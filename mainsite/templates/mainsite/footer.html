@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div style="text-align: center">
+    {% if contact_info %}
+        <ul>
+        {% for contacts in contact_info %}
+            <li>{{ contacts.email }}</li>
+            <li>{{ contacts.number_tel }}</li>
+            <li>{{ contacts.address }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>

@@ -1,0 +1,13 @@
+{% extends 'mainsite/base.html' %}
+{% block title %}
+Товар
+{% endblock title %}
+{% block content %}
+    <div>
+        <ul>
+            {% for goods in list_goods %}
+            <li><a href="{% url 'mainsite:goodsDetail' goods.id %}">{{ goods.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock%}

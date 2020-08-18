@@ -1,0 +1,20 @@
+{% extends 'mainsite/base.html' %}
+{% block title %}
+Товар
+{% endblock title %}
+{% block content %}
+    <div style="text-align: center">
+        <ul>
+            {% for goods in list_goods %}
+                {% if list_image %}
+                {% for image in list_image %}
+                    <img src="{{ image.image.url }}" alt="">
+                {% endfor %}
+                {% endif %}
+            <h1>{{ goods.name }}</h1>
+            <h2>{{ goods.price }}</h2>
+            <h2>{{ goods.details }}</h2>
+              {% endfor %}
+        </ul>
+    </div>
+{% endblock%}
