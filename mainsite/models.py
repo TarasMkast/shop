@@ -1,6 +1,8 @@
+from io import BytesIO
+from PIL import Image
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.db import models
-from django.db.models import Count
 from djmoney.models.fields import MoneyField
 
 
@@ -43,8 +45,17 @@ class Goods(models.Model):
         return self.name
 
 
+def compress(image):
+    im = Image.open(image)
+    im_io = BytesIO()
+    im.save(im_io, 'JPEG', quality=60)
+    new_image = File(im_io, name=image.name)
+    return new_image
+
+
 class PropertyImage(models.Model):
-    image = models.ImageField(verbose_name='Фото')
+    image_caption = models.CharField(max_length=35)
+    image = models.ImageField(verbose_name='Зображення')
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='Товар',
                               related_name='imageRel')
 
@@ -52,8 +63,13 @@ class PropertyImage(models.Model):
         verbose_name = 'Зображення'
         verbose_name_plural = 'Зображення'
 
+    def save(self, *args, **kwargs):
+                new_image = compress(self.image)
+                self.image = new_image
+                super().save(*args, **kwargs)
+
     def __str__(self):
-        return 'Зображення'
+        return self.image_caption
 
 
 class Order(models.Model):

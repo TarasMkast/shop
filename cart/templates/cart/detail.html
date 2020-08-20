@@ -1,0 +1,20 @@
+{% extends "mainsite/base.html" %}
+{% load static %}
+{% block title %}
+    Your shopping cart
+{% endblock %}
+{% block content %}
+    <h1>Your shopping cart</h1>
+    <ul>
+        {% for item in cart %}
+                <li>{{ item.name }}</li>
+                <li>{{ item.quantity }}</li>
+                <li>{{ item.price }}</li>
+                {#{{ item.total_price }}#}
+        {% endfor %}
+    </ul>
+    <p class="text-right">
+        <a href="{% url "mainsite:main" %}" class="button light">Continue shopping</a>
+        <a href="#" class="button">Checkout</a>
+    </p>
+{% endblock %}

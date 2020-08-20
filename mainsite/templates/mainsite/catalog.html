@@ -1,15 +1,16 @@
 {% extends 'mainsite/base.html' %}
 {% block title %}
-Каталог
+    Каталог
 {% endblock title %}
 {% block content %}
-    <div>
+
     {% if list_catalog %}
         <ul>
-        {% for catalog in list_catalog %}
-            <li><a href="{% url 'mainsite:goods' catalog.id %}">{{ catalog.name}}</a></li>
-        {% endfor %}
+            {% for catalog in list_catalog %}
+                <li><a href="{% url 'mainsite:goods' catalog.id %}">{{ catalog.name }}</a>
+                </li>
+            {% endfor %}
         </ul>
     {% endif %}
-    </div>
+
 {% endblock content %}

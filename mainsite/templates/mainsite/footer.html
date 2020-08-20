@@ -1,11 +1,13 @@
-<div style="text-align: center">
-    {% if contact_info %}
-        <ul>
-        {% for contacts in contact_info %}
-            <li>{{ contacts.email }}</li>
-            <li>{{ contacts.number_tel }}</li>
-            <li>{{ contacts.address }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        {% if contact_info %}
+            <ul class="list-group list-group-flush;">
+                {% for contacts in contact_info %}
+                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.email }}</h6></li>
+                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.number_tel }}</h6></li>
+                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.address }}</h6></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </div>
