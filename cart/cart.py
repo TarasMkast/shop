@@ -15,7 +15,8 @@ class Cart(object):
 
         goods_id = str(goods.id)
         if goods_id not in self.cart:
-            self.cart[goods_id] = {'name': str(goods.name),
+            self.cart[goods_id] = {'id': str(goods_id),
+                                   'name': str(goods.name),
                                    'quantity': 0,
                                    'price': str(goods.price)}
         if update_quantity:
@@ -48,9 +49,12 @@ class Cart(object):
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
 
-    # def get_total_price(self):
-    #     return sum(item['price'] * item['quantity'] for item in
-    #                self.cart.values())
+    def get_total_price(self):
+
+        return sum(
+            (float(item['price'].replace('₴', '').replace(',', '').replace('.', '')))/100 * item['quantity'] for
+            item in
+            self.cart.values())
 
     def clear(self):
         del self.session[settings.CART_SESSION_ID]

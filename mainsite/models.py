@@ -32,7 +32,7 @@ class Catalog(models.Model):
 
 class Goods(models.Model):
     name = models.CharField(max_length=30, db_index=True, verbose_name='Назва товару')
-    price = MoneyField(max_digits=9, decimal_places=2, default_currency='UAH', verbose_name='Ціна')
+    price = MoneyField(max_digits=14, default_currency='UAH', verbose_name='Ціна')
     details = models.CharField(max_length=99, verbose_name='Характеристики')
     catalog = models.ForeignKey(Catalog, null=True, blank=True, default='', on_delete=models.CASCADE,
                                 verbose_name='catalog', related_name='CatalogRel')
@@ -73,9 +73,13 @@ class PropertyImage(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
-    date = models.DateTimeField(verbose_name='Дата створення')
-    goods = models.ManyToManyField(Goods)
+    first_name = models.CharField(max_length=50, verbose_name='Імя')
+    last_name = models.CharField(max_length=50, verbose_name='Прізвище')
+    email = models.EmailField(verbose_name='Електронна пошта')
+    address = models.CharField(max_length=250, verbose_name='Адреса')
+    city = models.CharField(max_length=100, verbose_name='Місто')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
+    paid = models.BooleanField(default=False, verbose_name='Оплата')
 
     class Meta:
         verbose_name = 'Замовлення'

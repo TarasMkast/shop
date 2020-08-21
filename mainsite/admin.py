@@ -11,7 +11,7 @@ class CommentDb(admin.ModelAdmin):
 
 
 class OrderDb(admin.ModelAdmin):
-    list_display = ('user', 'date', 'get_goods', 'get_count_goods')
+    list_display = ('first_name', 'last_name', 'email', 'address', 'city', 'created', 'paid')
 
 
 class CatalogDb(admin.ModelAdmin):

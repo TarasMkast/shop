@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from cart.forms import CartForm
 from .models import Goods, MainCatalog, Catalog, PropertyImage
@@ -30,3 +30,10 @@ def goodsDetail(request, goods_id):
                    'list_image': PropertyImage.objects.filter(goods_id=goods_id),
                    'cart_form': cart_form})
 
+
+def order(request, goods_id, user_id):
+    return render(request, 'mainsite/order.html')
+
+
+def done(request, goods_id, user_id):
+    return redirect('mainsite:all_catalog')
