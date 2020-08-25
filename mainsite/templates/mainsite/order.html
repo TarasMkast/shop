@@ -1,7 +1,19 @@
-{% extends 'mainsite/base.html'%}
+{% extends 'mainsite/base.html' %}
 {% block title %}
-Замовлення
+    Замовлення
 {% endblock %}
 {% block content %}
-
+    <ul>
+        {% for item in cart %}
+            <li><h4>Кількість: {{ item.quantity }}</h4></li>
+            <li><h4>Назва товару: {{ item.name }}</h4></li>
+        {% endfor %}
+        <li><h4>Загальна вартість покупки: </h4><h3>{{ get_total_price }} гривень</h3></li>
+    </ul>
+    <form action="" method="POST">
+    {% csrf_token %}
+        <table>{{ form }}</table>
+    <br>
+    <input type="submit" value="Створити замовлення">
+    </form>
 {% endblock %}

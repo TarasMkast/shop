@@ -88,8 +88,19 @@ class Order(models.Model):
     def get_count_goods(self):
         return Order.objects.count()
 
-    def get_goods(self):
-        return "\n".join([g.name for g in self.goods.all()])
+    def __str__(self):
+        return self.first_name.join(' ').join(self.last_name)
+
+
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='Замовив(ла)')
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='Товар')
+    price = models.FloatField(default=0, verbose_name='Ціна')
+    quantity = models.IntegerField(default=1, verbose_name='Кількість')
+
+    class Meta:
+        verbose_name = 'Замовлений товар'
+        verbose_name_plural = 'Замовлені товари'
 
 
 class Comment(models.Model):

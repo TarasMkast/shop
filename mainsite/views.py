@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 
+from cart.cart import Cart
 from cart.forms import CartForm
-from .models import Goods, MainCatalog, Catalog, PropertyImage
+from .forms import OrderForm
+from .models import Goods, MainCatalog, Catalog, PropertyImage, OrderProduct
 
 
 def main(request):
@@ -31,9 +33,25 @@ def goodsDetail(request, goods_id):
                    'cart_form': cart_form})
 
 
-def order(request, goods_id, user_id):
-    return render(request, 'mainsite/order.html')
+def order_create(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        order = form.save()
+        for item in cart:
+            OrderProduct.objects.create(order=order,
+                                        goods=Goods.objects.get(id=item['id']),
+                                        price=item['price'].replace('₴', '').replace(',', ''),
+                                        quantity=item['quantity']
+                                        )
+        cart.clear()
+        return redirect('mainsite:order_done')
+    else:
+        form = OrderForm(request.POST)
+    return render(request, 'mainsite/order.html', {'form': form,
+                                                   'cart': cart,
+                                                   'get_total_price': cart.get_total_price()})
 
 
-def done(request, goods_id, user_id):
-    return redirect('mainsite:all_catalog')
+def done(request):
+    return render(request, 'mainsite/order_done.html')
