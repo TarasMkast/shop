@@ -1,14 +1,16 @@
-<div class="card">
-    <div class="card-header" style="text-align: center;
+<div class="card-header" style="text-align: center; /* Фиксированное положение */
+    left: 0; bottom: 0;
+    padding: 10px;
+    width: 100%;
     ">
-        {% if contact_info %}
-            <ul class="list-group list-group-flush;">
-                {% for contacts in contact_info %}
-                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.email }}</h6></li>
-                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.number_tel }}</h6></li>
-                    <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.address }}</h6></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+    {% if contact_info %}
+        <ul class="list-group list-group-flush;">
+            {% for contacts in contact_info %}
+                <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.email }}</h6></li>
+                <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.number_tel }}</h6></li>
+                <li><h6 class="card-subtitle mb-2 text-muted">{{ contacts.address }}</h6></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
+

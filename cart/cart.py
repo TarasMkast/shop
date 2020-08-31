@@ -1,6 +1,5 @@
-
 from django.conf import settings
-from mainsite.models import Goods
+from product.models import Product
 
 
 class Cart(object):
@@ -11,18 +10,18 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, goods, quantity=1, update_quantity=False):
+    def add(self, product, quantity=1, update_quantity=False):
 
-        goods_id = str(goods.id)
-        if goods_id not in self.cart:
-            self.cart[goods_id] = {'id': str(goods_id),
-                                   'name': str(goods.name),
-                                   'quantity': 0,
-                                   'price': str(goods.price)}
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.cart[product_id] = {'id': str(product_id),
+                                     'name': str(product.name),
+                                     'quantity': 0,
+                                     'price': str(product.price)}
         if update_quantity:
-            self.cart[goods_id]['quantity'] = quantity
+            self.cart[product_id]['quantity'] = quantity
         else:
-            self.cart[goods_id]['quantity'] += quantity
+            self.cart[product_id]['quantity'] += quantity
 
         self.save()
 
@@ -30,17 +29,17 @@ class Cart(object):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
 
-    def remove(self, goods):
-        goods_id = str(goods.id)
-        if goods_id in self.cart:
-            del self.cart[goods_id]
+    def remove(self, product):
+        product_id = str(product.id)
+        if product_id in self.cart:
+            del self.cart[product_id]
             self.save()
 
     def __iter__(self):
-        goods_ids = self.cart.keys()
-        goodses = Goods.objects.filter(id__in=goods_ids)
-        for goods in goodses:
-            self.cart[str(goods.id)]['product'] = goods
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        for product in products:
+            self.cart[str(product.id)]['product'] = product
 
         for item in self.cart.values():
             item['total_price'] = item['price'] * item['quantity']
@@ -52,7 +51,7 @@ class Cart(object):
     def get_total_price(self):
 
         return sum(
-            (float(item['price'].replace('₴', '').replace(',', '').replace('.', '')))/100 * item['quantity'] for
+            (float(item['price'].replace(',', '').replace('.', ''))) / 10 * item['quantity'] for
             item in
             self.cart.values())
 

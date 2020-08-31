@@ -4,8 +4,8 @@
 {% endblock title %}
 {% block content %}
     <ul>
-        {% for goods in list_goods %}
-            <li><a href="{% url 'mainsite:goodsDetail' goods.id %}">{{ goods.name }}</a></li>
+        {% for product in product_list %}
+            <li><a href="{% url 'product:productDetail' product.id %}">{{ product.name }}</a></li>
         {% endfor %}
     </ul>
 

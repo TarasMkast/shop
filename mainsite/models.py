@@ -1,9 +1,5 @@
-from io import BytesIO
-from PIL import Image
 from django.contrib.auth.models import User
-from django.core.files import File
 from django.db import models
-from djmoney.models.fields import MoneyField
 
 
 class MainCatalog(models.Model):
@@ -28,86 +24,3 @@ class Catalog(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Goods(models.Model):
-    name = models.CharField(max_length=30, db_index=True, verbose_name='Назва товару')
-    price = MoneyField(max_digits=14, default_currency='UAH', verbose_name='Ціна')
-    details = models.CharField(max_length=99, verbose_name='Характеристики')
-    catalog = models.ForeignKey(Catalog, null=True, blank=True, default='', on_delete=models.CASCADE,
-                                verbose_name='catalog', related_name='CatalogRel')
-
-    class Meta:
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товари'
-
-    def __str__(self):
-        return self.name
-
-
-def compress(image):
-    im = Image.open(image)
-    im_io = BytesIO()
-    im.save(im_io, 'JPEG', quality=60)
-    new_image = File(im_io, name=image.name)
-    return new_image
-
-
-class PropertyImage(models.Model):
-    image_caption = models.CharField(max_length=35)
-    image = models.ImageField(verbose_name='Зображення')
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='Товар',
-                              related_name='imageRel')
-
-    class Meta:
-        verbose_name = 'Зображення'
-        verbose_name_plural = 'Зображення'
-
-    def save(self, *args, **kwargs):
-                new_image = compress(self.image)
-                self.image = new_image
-                super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.image_caption
-
-
-class Order(models.Model):
-    first_name = models.CharField(max_length=50, verbose_name='Імя')
-    last_name = models.CharField(max_length=50, verbose_name='Прізвище')
-    email = models.EmailField(verbose_name='Електронна пошта')
-    address = models.CharField(max_length=250, verbose_name='Адреса')
-    city = models.CharField(max_length=100, verbose_name='Місто')
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
-    paid = models.BooleanField(default=False, verbose_name='Оплата')
-
-    class Meta:
-        verbose_name = 'Замовлення'
-        verbose_name_plural = 'Замовлення'
-
-    def get_count_goods(self):
-        return Order.objects.count()
-
-    def __str__(self):
-        return self.first_name.join(' ').join(self.last_name)
-
-
-class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='Замовив(ла)')
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='Товар')
-    price = models.FloatField(default=0, verbose_name='Ціна')
-    quantity = models.IntegerField(default=1, verbose_name='Кількість')
-
-    class Meta:
-        verbose_name = 'Замовлений товар'
-        verbose_name_plural = 'Замовлені товари'
-
-
-class Comment(models.Model):
-    text = models.CharField(max_length=199, verbose_name='Текст коментарія')
-    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='Товар')
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, verbose_name='Користувач')
-
-    class Meta:
-        verbose_name = 'Коментар'
-        verbose_name_plural = 'Коментарі'

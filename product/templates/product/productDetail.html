@@ -5,16 +5,16 @@
 {% block content %}
     <div style="text-align: center">
         <ul>
-            {% for goods in list_goods %}
-                {% if list_image %}
-                    {% for image in list_image %}
+            {% for product in product_list %}
+                {% if image_list %}
+                    {% for image in image_list %}
                         <img src="{{ image.image.url }}" width="35%" height=35%" alt="">
                     {% endfor %}
                 {% endif %}
-                <h1>{{ goods.name }}</h1>
-                <h2>{{ goods.price }}</h2>
-                <h2>{{ goods.details }}</h2>
-                <form action="{% url "cart:add_cart" goods.id%}" method="post">
+                <h1>{{ product.name }}</h1>
+                <h2>{{ product.price }}</h2>
+                <h2>{{ product.details }}</h2>
+                <form action="{% url "cart:add_cart" product.id%}" method="post">
                 {{ cart_form }}
                 {% csrf_token %}
                 <input type="submit" value="Додати в корзину">

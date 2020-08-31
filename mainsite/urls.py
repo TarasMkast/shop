@@ -8,8 +8,5 @@ urlpatterns = [
     path('', views.main, name='main'),
     path('all/catalog/', views.all_catalog, name='all_catalog'),
     path('<int:maincatalog_id>/catalog/', views.catalog, name='catalog'),
-    path('<int:catalog_id>/goods/', views.goods, name='goods'),
-    path('<int:goods_id>/detail/', views.goodsDetail, name='goodsDetail'),
-    path('order_create/', views.order_create, name='order_create'),
-    path('order_done/', views.done, name='order_done')
+
 ]
