@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.main, name='main'),
     path('all/catalog/', views.all_catalog, name='all_catalog'),
     path('<int:maincatalog_id>/catalog/', views.catalog, name='catalog'),
+    path('index/', views.index, name='index')
 
 ]

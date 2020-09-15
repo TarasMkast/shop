@@ -14,3 +14,6 @@ def catalog(request, maincatalog_id):
     return render(request, 'mainsite/catalog.html',
                   {'list_catalog': Catalog.objects.filter(mainCatalog_id=maincatalog_id)})
 
+
+def index(request):
+    return render(request, 'mainsite/index.html')
