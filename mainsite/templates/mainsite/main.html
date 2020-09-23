@@ -4,10 +4,10 @@
 {% endblock %}
 {% block content %}
 
-    {% if list_maincatalog %}
+    {% if list_catalog %}
         <ul>
-            {% for maincatalog in list_maincatalog %}
-                <li><a href="{% url 'mainsite:catalog' maincatalog.id %}">{{ maincatalog.name }}</a></li>
+            {% for catalog in list_catalog %}
+                <li><a href="{% url 'product:product_list' catalog.id %}">{{ catalog.name }}</a></li>
             {% endfor %}
         </ul>
 

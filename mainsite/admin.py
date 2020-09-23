@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import MainCatalog, Catalog
+from .models import Catalog
 
 
 class CatalogDb(admin.ModelAdmin):
-    list_display = ('name', 'mainCatalog')
+    list_display = ('name', 'parent_id')
 
 
 admin.site.register(Catalog, CatalogDb)
-admin.site.register(MainCatalog)
+

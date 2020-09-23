@@ -2,25 +2,14 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class MainCatalog(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Назва головного каталогу')
-
-    class Meta:
-        verbose_name = 'Головний каталог'
-        verbose_name_plural = 'Головні каталоги'
-
-    def __str__(self):
-        return self.name
-
-
 class Catalog(models.Model):
-    mainCatalog = models.ForeignKey(MainCatalog, on_delete=models.CASCADE, verbose_name='Назва головного каталогу',
-                                    related_name='MainCatalogRel')
-    name = models.CharField(max_length=30, verbose_name='Назва підкаталогу')
+    name = models.CharField(max_length=30, verbose_name='Каталог')
+    parent_id = models.ForeignKey('Catalog', null=True, blank=True, on_delete=models.CASCADE,
+                                  verbose_name='Батьківський каталог')
 
     class Meta:
-        verbose_name = 'Підкаталог'
-        verbose_name_plural = 'Підкаталоги'
+        verbose_name = 'Каталог'
+        verbose_name_plural = 'Каталоги'
 
     def __str__(self):
         return self.name

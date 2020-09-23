@@ -3,11 +3,11 @@ from io import BytesIO
 from PIL import Image
 from django.core.files import File
 from django.db import models
-from djmoney.forms import MoneyField
 from mainsite.models import Catalog
 
 
 class Product(models.Model):
+    image_main = models.ImageField(null=True, blank=True, verbose_name='Зображення')
     name = models.CharField(max_length=30, db_index=True, verbose_name='Назва товару')
     price = models.FloatField(default=1, verbose_name='Ціна')
     details = models.CharField(max_length=99, verbose_name='Характеристики')

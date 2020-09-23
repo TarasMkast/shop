@@ -5,6 +5,7 @@
 {% block content %}
     <ul>
         {% for product in product_list %}
+            <img src="{{ product.image_main.url }}" width="5%" height=5%" alt="">
             <li><a href="{% url 'product:productDetail' product.id %}">{{ product.name }}</a></li>
         {% endfor %}
     </ul>
